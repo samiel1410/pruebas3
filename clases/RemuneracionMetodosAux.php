@@ -20,7 +20,8 @@ class renumeracionMetodos{
     
     
     public function seleccionarCodigoGerenciaEmpleado($id_empleado){
-        $baseDatos = new conectarse(); $baseDatos->conectar();
+        $baseDatos = new conectarse(); 
+        $baseDatos->conectar();
         $seleccionar = $baseDatos->consulta("SELECT beneficiario_empleado
 FROM empleado
 WHERE id_empleado='$id_empleado'");
