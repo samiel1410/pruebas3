@@ -11,8 +11,8 @@ $anio='2023';
 $mes='04';
 
 //Semana
-$fecha_inicio="2023-04-20";
-$fecha_fin="2023-04-21";
+$fecha_inicio="2023-04-01";
+$fecha_fin="2023-04-07";
 //$dias_trabajados=$_POST['dias_trabajados'];
 //$record=$_POST['recordListado'];
 
@@ -98,12 +98,14 @@ for ($i = 0; $i < $numeroEmpleados; $i++) {
     
     //DECIMO TERCERO
     if($codigogerencia!='2'){
-        if($tipo_rol=="SEMANAS"){
-            $seleccionardecimotercero=$metodos->calcularDecimoTercero($seleccionarsueldo, $seleccionarhorasextras, $seleccionarcomision, $tipo_rol[$i]);
+        if($tipoGeneracionRol=="SEMANAS"){
+            $seleccionardecimotercero=$metodos->calcularDecimoTercero($seleccionarsueldoAsignado, $seleccionarhorasextras, $seleccionarcomision, $tipo_rol[$i]);
 
+        }else{
+            $seleccionardecimotercero=$metodos->calcularDecimoTercero($seleccionarsueldo, $seleccionarhorasextras, $seleccionarcomision, $tipo_rol[$i]);
         }
         
-        $seleccionardecimotercero=$metodos->calcularDecimoTercero($seleccionarsueldo, $seleccionarhorasextras, $seleccionarcomision, $tipo_rol[$i]);
+     
         $tipo_pago=$metodos->seleccionarTipoPagoEmpleado($id_empleado[$i]);
         
         // ECHO "TIPO PAGO ".$tipo_pago;

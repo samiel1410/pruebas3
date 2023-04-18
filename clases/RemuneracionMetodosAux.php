@@ -176,6 +176,7 @@ if($tipoGeneracionRol=="SEMANAS"){
         $total=($valortotal_pagado_por_contrato+$valorhorasextras+$valorcomisiones)/$divisor;
         
         $total=round($total,4);
+        echo "sss",$total;
         $resp =$total;
         return $resp;
         
