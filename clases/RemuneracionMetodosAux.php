@@ -104,14 +104,15 @@ WHERE id_empleado='$id_empleado'");
     public function seleccionarTotalHorasExtraoridinariasEmpleado($id_empleado,$mes,$anio,$tipoGeneracionRol,$fecha_inicio,$fecha_fin) {
         $baseDatos = new conectarse(); $baseDatos->conectar();
         $query="SELECT SUM(total) as total FROM horas_extras_empleado
-        WHERE id_empleado='$id_empleado'
-        AND MONTH(fecha) ='$mes'
-        AND YEAR(fecha) ='$anio'";
+        WHERE id_empleado='$id_empleado'";
 
 if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
 
+}else{
+    $query .=" AND MONTH(fecha) ='$mes'
+    AND YEAR(fecha) ='$anio'";
 }
         $seleccionar = $baseDatos->consulta($query);
 
@@ -138,13 +139,15 @@ if($tipoGeneracionRol=="SEMANAS"){
 
         $query="SELECT SUM(monto_total_comision) AS total FROM comision_empleado
         WHERE id_fkempleado='$id_empleado'
-        AND MONTH(fecha_comision)='$mes'
-        AND YEAR(fecha_comision)='$anio'";
+        ";
 
 
 if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha_comision BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
+}else{
+    $query .=" AND MONTH(fecha_comision)='$mes'
+    AND YEAR(fecha_comision)='$anio'";
 }
         $seleccionar = $baseDatos->consulta($query);
 
@@ -383,8 +386,7 @@ WHERE id_fkempleado_beneficio_empleado='$id_empleado'");
         $query="SELECT SUM(monto) AS total
         FROM detalle_haberdescuento
         WHERE id_empleado='$id_empleado'
-        AND MONTH(fecha)='$mes'
-        AND YEAR(fecha)='$anio'
+        
         AND id_haber_descuento IN(SELECT id
                                  FROM haber_descuento
                                  WHERE id=id_haber_descuento
@@ -396,6 +398,9 @@ WHERE id_fkempleado_beneficio_empleado='$id_empleado'");
 if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
+}else{
+    $query .=" AND MONTH(fecha)='$mes'
+    AND YEAR(fecha)='$anio'";
 }
 
         $seleccionar = $baseDatos->consulta($query);
@@ -553,14 +558,17 @@ AND id_fkempleado_empleado='$id_empleado'");
 
         $query="SELECT monto_detalle_prestamo AS total FROM detalle_prestamo
         WHERE id_fkprestamo='$id_prestamo'
-        AND estado_detalle_prestamo='NO PAGADO'
-        AND YEAR(fecha_cuota_detalle_prestamo)='$anio'
-        AND MONTH(fecha_cuota_detalle_prestamo)='$mes'";
+        AND estado_detalle_prestamo='NO PAGADO'";
         $seleccionar = $baseDatos->consulta($query);
 
 if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha_cuota_detalle_prestamo BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
+}
+
+else{
+    $query .="  AND YEAR(fecha_cuota_detalle_prestamo)='$anio'
+    AND MONTH(fecha_cuota_detalle_prestamo)='$mes'";
 }
         
         if ($baseDatos->numeroFilas($seleccionar) > 0) {
@@ -629,8 +637,7 @@ AND '$anio' BETWEEN  YEAR(fecha_inicial_retencion_judicial_empleado) AND YEAR(fe
         $query="SELECT SUM(monto) AS total
         FROM detalle_haberdescuento,haber_descuento H
         WHERE id_empleado='$id_empleado'
-        AND MONTH(fecha)='$mes'
-        AND YEAR(fecha)='$anio'
+      
         AND estado='PAGADO'
         AND id_haber_descuento IN (SELECT H.id
                                     FROM haber_descuento
@@ -643,6 +650,9 @@ AND '$anio' BETWEEN  YEAR(fecha_inicial_retencion_judicial_empleado) AND YEAR(fe
 if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
+}else{
+    $query .="  AND MONTH(fecha)='$mes'
+    AND YEAR(fecha)='$anio'";
 }
 
         $seleccionar = $baseDatos->consulta($query);
@@ -668,8 +678,7 @@ if($tipoGeneracionRol=="SEMANAS"){
         $query="SELECT SUM(monto) AS total
         FROM detalle_haberdescuento,haber_descuento H
         WHERE id_empleado='$id_empleado'
-        AND MONTH(fecha)='$mes'
-        AND YEAR(fecha)='$anio'
+       
         AND estado='PAGADO'
         AND id_haber_descuento IN (SELECT H.id
                                     FROM haber_descuento
@@ -682,6 +691,9 @@ if($tipoGeneracionRol=="SEMANAS"){
         if($tipoGeneracionRol=="SEMANAS"){
             $query .=" AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
             
+        }else{
+            $query .="  AND MONTH(fecha)='$mes'
+            AND YEAR(fecha)='$anio'";
         }
 
 
@@ -711,8 +723,6 @@ if($tipoGeneracionRol=="SEMANAS"){
         $query="SELECT SUM(monto) AS total
         FROM detalle_haberdescuento,haber_descuento H
         WHERE id_empleado='$id_empleado'
-        AND MONTH(fecha)='$mes'
-        AND YEAR(fecha)='$anio'
         AND estado='PAGADO'
         AND id_haber_descuento IN (SELECT H.id
                                     FROM haber_descuento
@@ -725,6 +735,9 @@ if($tipoGeneracionRol=="SEMANAS"){
     $query .=" AND fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
    
     
+}else{
+    $query .="  AND MONTH(fecha)='$mes'
+    AND YEAR(fecha)='$anio'";
 }
         $seleccionar = $baseDatos->consulta( $query);
 
@@ -747,13 +760,14 @@ if($tipoGeneracionRol=="SEMANAS"){
         $baseDatos = new conectarse(); $baseDatos->conectar();
         $query="SELECT id_rol_de_pagos
         FROM rol_de_pagos
-        WHERE id_empleado='$id_empleado'
-        AND mes='$mes'
-        AND anio='$anio'";
+        WHERE id_empleado='$id_empleado'";
         if($tipoGeneracionRol=="SEMANAS"){
             $query .=" AND fecha_inicio >='$fecha_inicio' and fecha_fin <= '$fecha_fin'";
             
             
+        }else{
+            $query .="  AND mes='$mes'
+            AND anio='$anio'";
         }
 
   
